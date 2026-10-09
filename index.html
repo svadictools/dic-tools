@@ -84,6 +84,10 @@ a.mrow:hover{background:#dcdcdc}
 .front{all:unset;box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;cursor:pointer;transition:background .15s}
 .front:before{content:'';display:block;flex:none;height:calc(var(--sq)*.045);background:#000}
 @media(hover:hover) and (pointer:fine){.card:hover .front{background:#dcdcdc}}
+@media(max-width:600px),(hover:none),(pointer:coarse){
+ .front:active,.card.open .front,.card.open .opts{background:#dcdcdc}
+ .brow:active{background:#dcdcdc;color:#000}
+}
 .front:focus-visible{outline:3px solid #000;outline-offset:-6px}
 .cnum{padding:calc(var(--sq)*.06) calc(var(--sq)*.08) 0;font:900 calc(var(--sq)*.16)/.85 'Big Shoulders Display','Archivo',sans-serif;color:#000}
 .ctext{margin-top:auto;padding:0 calc(var(--sq)*.08) calc(var(--sq)*.075)}
