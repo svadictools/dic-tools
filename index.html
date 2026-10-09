@@ -83,7 +83,7 @@ a.mrow:hover{background:#dcdcdc}
 .card{position:relative;width:var(--sq);height:var(--sq);border:2px solid #000;border-radius:2px;background:#fff;overflow:hidden;box-sizing:border-box}
 .front{all:unset;box-sizing:border-box;position:absolute;inset:0;display:flex;flex-direction:column;cursor:pointer;transition:background .15s}
 .front:before{content:'';display:block;flex:none;height:calc(var(--sq)*.045);background:#000}
-.card:hover .front{background:#dcdcdc}
+@media(hover:hover) and (pointer:fine){.card:hover .front{background:#dcdcdc}}
 .front:focus-visible{outline:3px solid #000;outline-offset:-6px}
 .cnum{padding:calc(var(--sq)*.06) calc(var(--sq)*.08) 0;font:900 calc(var(--sq)*.16)/.85 'Big Shoulders Display','Archivo',sans-serif;color:#000}
 .ctext{margin-top:auto;padding:0 calc(var(--sq)*.08) calc(var(--sq)*.075)}
@@ -100,7 +100,7 @@ a.mrow:hover{background:#dcdcdc}
 .brow{display:flex;align-items:center;gap:calc(var(--sq)*.035);padding:calc(var(--sq)*.022) 6px;margin:0 -6px;border-bottom:1px solid #d6d6d6;font:400 max(14px,calc(var(--sq)*.058))/1.2 'Instrument Sans',sans-serif;color:#333;transition:background .15s}
 .blist .brow:last-child{border-bottom:0}
 .brow b{flex:none;width:calc(var(--sq)*.095);height:calc(var(--sq)*.095);display:flex;align-items:center;justify-content:center;border:2px solid #000;box-sizing:border-box;font:600 calc(var(--sq)*.046)/1 'Instrument Sans',sans-serif;color:#000;font-variant-numeric:tabular-nums}
-.brow:hover{background:#dcdcdc;color:#000}
+@media(hover:hover) and (pointer:fine){.brow:hover{background:#dcdcdc;color:#000}}
 .brow:focus-visible{outline:3px solid #000;outline-offset:-3px}
 .spots{margin-top:6px;padding-top:6px;border-top:2px solid #000;font:600 calc(var(--sq)*.048)/1.2 'Instrument Sans',sans-serif;color:#000}
 .oclose{all:unset;display:none;align-items:center;justify-content:center;width:30px;height:30px;margin:-4px -4px -4px auto;cursor:pointer;color:#fff;font:400 26px/1 'Instrument Sans',sans-serif}
@@ -272,8 +272,10 @@ var BOOKINGS = [
       closeAll(card); card.classList.toggle('open', open); f.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open && f.matches(':focus-visible')) { var first = o.querySelector('a'); if (first) setTimeout(function(){ first.focus(); }, 60); }
     });
-    card.addEventListener('mouseenter', function(){ closeAll(card); });
-    card.addEventListener('mouseleave', function(){ card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); var ae=document.activeElement; if (ae && card.contains(ae)) ae.blur(); });
+    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      card.addEventListener('mouseenter', function(){ closeAll(card); });
+      card.addEventListener('mouseleave', function(){ card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); var ae=document.activeElement; if (ae && card.contains(ae)) ae.blur(); });
+    }
     o.addEventListener('keydown', function(e){ if (e.key === 'Escape') { card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); f.focus(); } });
     card.appendChild(f); card.appendChild(o); bk.appendChild(card); cards.push(card);
   });
