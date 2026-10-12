@@ -85,8 +85,8 @@ a.mrow:hover{background:#dcdcdc}
 .front:before{content:'';display:block;flex:none;height:calc(var(--sq)*.045);background:#000}
 @media(hover:hover) and (pointer:fine){.card:hover .front{background:#dcdcdc}}
 @media(max-width:600px),(hover:none),(pointer:coarse){
- .front:active,.card.open .front,.card.open .opts{background:#dcdcdc}
- .brow:active{background:#dcdcdc;color:#000}
+ .front:active,.card.touch-hover .front{background:#dcdcdc}
+ .brow:active,.brow.touch-hover{background:#dcdcdc;color:#000}
 }
 .front:focus-visible{outline:3px solid #000;outline-offset:-6px}
 .cnum{padding:calc(var(--sq)*.06) calc(var(--sq)*.08) 0;font:900 calc(var(--sq)*.16)/.85 'Big Shoulders Display','Archivo',sans-serif;color:#000}
@@ -283,6 +283,22 @@ var BOOKINGS = [
     o.addEventListener('keydown', function(e){ if (e.key === 'Escape') { card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); f.focus(); } });
     card.appendChild(f); card.appendChild(o); bk.appendChild(card); cards.push(card);
   });
+  function clearTouchHover(){
+    cards.forEach(function(c){ c.classList.remove('touch-hover'); });
+    document.querySelectorAll('.brow.touch-hover').forEach(function(r){ r.classList.remove('touch-hover'); });
+  }
+  function trackTouch(t){
+    if (!t) return;
+    var hit = document.elementFromPoint(t.clientX, t.clientY);
+    var row = hit && hit.closest ? hit.closest('.brow') : null;
+    var hovered = !row && hit && hit.closest ? hit.closest('.card') : null;
+    cards.forEach(function(c){ c.classList.toggle('touch-hover', c === hovered); });
+    document.querySelectorAll('.brow').forEach(function(r){ r.classList.toggle('touch-hover', r === row); });
+  }
+  document.addEventListener('touchstart', function(e){ trackTouch(e.touches && e.touches[0]); }, {passive:true});
+  document.addEventListener('touchmove', function(e){ trackTouch(e.touches && e.touches[0]); }, {passive:true});
+  document.addEventListener('touchend', clearTouchHover, {passive:true});
+  document.addEventListener('touchcancel', clearTouchHover, {passive:true});
   document.addEventListener('click', function(e){ if (!bk.contains(e.target)) closeAll(null); });
   /* shrink a name only if it is too wide for its box (never cut off) */
   function fitNames(){
