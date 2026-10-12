@@ -276,10 +276,6 @@ var BOOKINGS = [
       closeAll(card); card.classList.toggle('open', open); f.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open && f.matches(':focus-visible')) { var first = o.querySelector('a'); if (first) setTimeout(function(){ first.focus(); }, 60); }
     });
-    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      card.addEventListener('mouseenter', function(){ closeAll(card); });
-      card.addEventListener('mouseleave', function(){ card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); var ae=document.activeElement; if (ae && card.contains(ae)) ae.blur(); });
-    }
     o.addEventListener('keydown', function(e){ if (e.key === 'Escape') { card.classList.remove('open'); f.setAttribute('aria-expanded', 'false'); f.focus(); } });
     card.appendChild(f); card.appendChild(o); bk.appendChild(card); cards.push(card);
   });
@@ -299,7 +295,6 @@ var BOOKINGS = [
   document.addEventListener('touchmove', function(e){ trackTouch(e.touches && e.touches[0]); }, {passive:true});
   document.addEventListener('touchend', clearTouchHover, {passive:true});
   document.addEventListener('touchcancel', clearTouchHover, {passive:true});
-  document.addEventListener('click', function(e){ if (!bk.contains(e.target)) closeAll(null); });
   /* shrink a name only if it is too wide for its box (never cut off) */
   function fitNames(){
     [].forEach.call(bk.querySelectorAll('.cname'), function(n){
