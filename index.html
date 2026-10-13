@@ -128,7 +128,7 @@ body.bkmode .hubonly{display:none!important}
 #bview,#cview,#sview{display:none}
 body.bkmode #bview,body.clmode #cview,body.scmode #sview{display:block}
 body.clmode .hubonly,body.scmode .hubonly{display:none!important}
-.schedule-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin:0 0 16px;padding-bottom:18px;border-bottom:2px solid #000}
+.schedule-head{display:flex;align-items:flex-end;justify-content:flex-end;gap:24px;margin:0 0 16px;padding-bottom:18px;border-bottom:2px solid #000}
 .schedule-title{font:800 44px/.95 'Archivo',sans-serif;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em}
 .schedule-switch{display:grid;grid-template-columns:1fr 1fr;width:min(100%,520px);border:2px solid #000;border-radius:4px;flex:0 0 520px}
 .schedule-switch button{all:unset;box-sizing:border-box;cursor:pointer;text-align:center;padding:11px 12px;font:800 15px/1 'Archivo',sans-serif;font-stretch:80%;text-transform:uppercase;letter-spacing:.03em;color:#000}
@@ -138,9 +138,14 @@ body.clmode .hubonly,body.scmode .hubonly{display:none!important}
 .schedule-days::-webkit-scrollbar{display:none}
 .schedule-days button{all:unset;box-sizing:border-box;cursor:pointer;min-width:68px;padding:9px 14px;border:2px solid #000;border-radius:4px;text-align:center;font:700 13px/1 'Instrument Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase}
 .schedule-days button[aria-pressed="true"]{background:#000;color:#fff}
-.schedule-day-title{display:flex;align-items:baseline;gap:12px;margin:12px 0 12px;font:800 22px/1 'Archivo',sans-serif;font-stretch:80%;text-transform:uppercase}
+.schedule-day-title{display:flex;align-items:baseline;gap:12px;margin:16px 0 18px;font:800 22px/1 'Archivo',sans-serif;font-stretch:80%;text-transform:uppercase}
 .schedule-day-title small{font:400 14px/1.2 'Instrument Sans',sans-serif;color:#666;text-transform:none}
-.shift-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.daily-location-group{margin-top:30px}.daily-location-group:first-of-type{margin-top:0}
+.daily-location-title{display:flex;align-items:center;gap:12px;margin:0 0 13px;font:700 12px/1 'Instrument Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.daily-location-title:after{content:"";height:1px;background:#000;flex:1}
+.daily-location-title small{font:400 11px/1 'Instrument Sans',sans-serif;letter-spacing:.04em;color:#666;text-transform:none}
+.daily-location-empty{padding:16px 0 18px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#666}
+.shift-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .shift-card{display:grid;grid-template-rows:auto 1fr auto;min-height:250px;border:2px solid #000;border-radius:2px;background:#fff;overflow:hidden;position:relative}
 .shift-card:after{content:"";position:absolute;right:-34px;top:54px;width:112px;height:112px;border:17px solid #ececec;border-radius:50%;z-index:0}
 .shift-label{padding:8px 13px;border-bottom:2px solid #000;font:700 10px/1 'Instrument Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1}
@@ -153,6 +158,13 @@ body.clmode .hubonly,body.scmode .hubonly{display:none!important}
 .shift-where small{display:block;margin-bottom:4px;font:600 8px/1 'Instrument Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
 .shift-where b{display:block;font:800 15px/1 'Archivo',sans-serif;font-stretch:80%;text-transform:uppercase;white-space:nowrap}
 .schedule-empty{padding:34px 0;border-top:1px solid #d6d6d6;font:400 16px/1.4 'Instrument Sans',sans-serif;color:#666}
+.coverage-note{margin-top:26px;border:0;border-top:1px solid #cfcfcf;background:transparent;padding:12px 0 0}
+.coverage-note-title{font:700 11px/1.3 'Instrument Sans',sans-serif;text-transform:uppercase;letter-spacing:.09em;color:#555}
+.coverage-note-title:before{display:none}
+.coverage-note-list{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:7px;font:600 13px/1.35 'Instrument Sans',sans-serif}
+.coverage-note-list span{display:inline-flex;align-items:baseline;gap:6px}
+.coverage-note-list b{font-weight:600}.coverage-note-list i{font-style:normal;font-weight:400;color:#555}
+.coverage-note-disclaimer{margin:6px 0 0;font:400 11px/1.4 'Instrument Sans',sans-serif;color:#777}
 .week-block{padding:18px 0 24px;border-bottom:1px solid #d6d6d6}
 .week-block:first-child{padding-top:0}.week-block:last-child{border-bottom:0}
 .week-directory{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
@@ -168,8 +180,10 @@ body.clmode .hubonly,body.scmode .hubonly{display:none!important}
 @media(max-width:700px){
  .schedule-head{display:block}.schedule-title{font-size:36px;margin-bottom:16px}
  .schedule-switch{width:100%;max-width:none;display:grid;flex:none}.schedule-switch button{font-size:13px;padding:11px 7px}
- .shift-grid{grid-template-columns:1fr}.shift-card{min-height:240px}
+ .schedule-day-title{margin:14px 0 16px}.daily-location-group{margin-top:24px}.daily-location-title{margin-bottom:11px}
+ .shift-grid{grid-template-columns:1fr;gap:14px}.shift-card{min-height:240px}
  .shift-name{font-size:50px}.shift-time{font-size:27px}
+ .coverage-note{margin-top:22px;padding:10px 0 0}.coverage-note-list{display:grid;gap:4px}
  .week-directory{grid-template-columns:1fr;gap:10px}
 }
 @media(min-width:701px) and (max-width:1050px){.week-directory{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -234,7 +248,6 @@ body{margin:0;color:#000}
   <div id="sview">
     <p class="cintro" style="margin:18px 0 18px;max-width:none;font:400 17px/1.5 'Instrument Sans',sans-serif;color:#333">See <b style="font-weight:700;color:#000">student worker coverage</b> by <b style="font-weight:700;color:#000">day</b> and <b style="font-weight:700;color:#000">time</b>.</p>
     <div class="schedule-head">
-      <div class="schedule-title">Student Worker Schedule</div>
       <div class="schedule-switch" role="tablist" aria-label="Schedule view">
         <button type="button" role="tab" aria-selected="true" data-schedule-view="day">Current Day</button>
         <button type="button" role="tab" aria-selected="false" data-schedule-view="week">Week at a Glance</button>
@@ -423,7 +436,12 @@ var CLASSROOM_HTML="<!doctype html><html><head><meta charset=utf8><meta name=vie
   function weekDate(i){var n=new Date(),dow=n.getDay(),diff=(dow===0?-6:1-dow);return new Date(n.getFullYear(),n.getMonth(),n.getDate()+diff+i);}
   function dateLabel(i){return weekDate(i).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}
   function shiftCard(s){return '<article class="shift-card"><div class="shift-label">Student Worker · On Duty</div><div class="shift-main"><div class="shift-name">'+s[0]+'</div><div class="shift-time">'+s[1]+'</div></div><div class="shift-where"><div><small>Department</small><b>Print Studio</b></div><div><small>Location</small><b>'+s[2]+'</b></div></div></article>';}
-  function dayBlock(i,week){var d=STUDENT_SCHEDULE[i],cards=d.shifts.map(shiftCard).join('');return '<section class="'+(week?'week-block':'')+'"><h2 class="schedule-day-title">'+d.day+' <small>'+dateLabel(i)+'</small></h2>'+(cards?'<div class="shift-grid">'+cards+'</div>':'<div class="schedule-empty">No student workers scheduled.</div>')+'</section>';}
+  function shiftMinutes(t){var m=t.trim().match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i);if(!m)return null;var h=+m[1],n=+m[2],a=(m[3]||'').toUpperCase();if(a==='PM'&&h!==12)h+=12;if(a==='AM'&&h===12)h=0;return h*60+n;}
+  function shiftRange(raw){var p=raw.replace(/–/g,'-').split('-'),end=shiftMinutes(p[1]||'');if(end===null)return null;var sm=(p[0]||'').trim().match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i);if(!sm)return null;var mer=(sm[3]||'').toUpperCase();if(!mer)mer=end>=720?'PM':'AM';var start=shiftMinutes(sm[1]+':'+sm[2]+' '+mer);if(start>end)start=shiftMinutes(sm[1]+':'+sm[2]+' AM');return[start,end];}
+  function clock(m){var h=Math.floor(m/60),n=m%60,a=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(n).padStart(2,'0')+' '+a;}
+  function coverageNote(d){var all=d.shifts.map(function(s){return shiftRange(s[1]);}).filter(Boolean);if(!all.length)return'';var start=Math.min.apply(null,all.map(function(r){return r[0];})),end=Math.max.apply(null,all.map(function(r){return r[1];}));var places=['1st Floor','5th Floor'];var items=places.map(function(place){var ranges=d.shifts.filter(function(s){return s[2]===place;}).map(function(s){return shiftRange(s[1]);}).filter(Boolean).sort(function(a,b){return a[0]-b[0];});if(!ranges.length)return'<span><b>'+place+':</b><i>No student worker listed</i></span>';var gaps=[],cursor=start;ranges.forEach(function(r){if(r[0]>cursor)gaps.push([cursor,r[0]]);cursor=Math.max(cursor,r[1]);});if(cursor<end)gaps.push([cursor,end]);return'<span><b>'+place+':</b><i>'+(gaps.length?gaps.map(function(g){return clock(g[0])+'–'+clock(g[1]);}).join(', '):'No gaps shown')+'</i></span>';}).join('');return'<aside class="coverage-note" aria-label="Possible coverage gaps"><div class="coverage-note-title">Possible coverage gaps</div><div class="coverage-note-list">'+items+'</div><p class="coverage-note-disclaimer">Based on posted student-worker shifts; staff coverage and schedule changes may vary.</p></aside>';}
+  function dailyGroups(d){return[['5th Floor','5th Floor',''],['Print Studio','1st Floor','1st Floor']].map(function(g){var shifts=d.shifts.filter(function(s){return s[2]===g[1];});return'<section class="daily-location-group"><h3 class="daily-location-title">'+g[0]+(g[2]?' <small>'+g[2]+'</small>':'')+'</h3>'+(shifts.length?'<div class="shift-grid">'+shifts.map(shiftCard).join('')+'</div>':'<div class="daily-location-empty">No student workers scheduled.</div>')+'</section>';}).join('');}
+  function dayBlock(i,week){var d=STUDENT_SCHEDULE[i];return '<section class="'+(week?'week-block':'')+'"><h2 class="schedule-day-title">'+d.day+' <small>'+dateLabel(i)+'</small></h2>'+(week?(d.shifts.length?'<div class="shift-grid">'+d.shifts.map(shiftCard).join('')+'</div>':'<div class="schedule-empty">No student workers scheduled.</div>'):dailyGroups(d)+coverageNote(d))+'</section>';}
   function weekBoard(){return '<div class="week-directory">'+STUDENT_SCHEDULE.map(function(d,i){var date=weekDate(i).toLocaleDateString('en-US',{month:'short',day:'numeric'});var workers=d.shifts.map(function(s){var place=s[2]==='1st Floor'?'Print Studio · 1st Floor':'5th Floor';return '<div class="week-worker"><div class="week-worker-name">'+s[0]+'</div><div class="week-worker-time">'+s[1].replace(/ AM| PM/g,'')+'</div><div class="week-worker-place">'+place+'</div></div>';}).join('');return '<section class="week-day-card"><header class="week-day-head"><b>'+d.short+'</b><time>'+date+'</time></header>'+workers+'</section>';}).join('')+'</div>';}
   function renderSchedule(){
     var days=document.getElementById('scheduleDays'),board=document.getElementById('scheduleBoard');if(!days||!board)return;
@@ -525,8 +543,28 @@ window.addEventListener('resize',fit);window.addEventListener('load',fit);fit();
 })();
 </script>
 <style id="booking-direct-view">
-body.bkmode details.menu,body.bkmode .mveil,body.bkmode .bback{display:none!important}
-@media(max-width:700px){body.bkmode .mast{padding-right:0!important}}
+body.bkmode .bback{display:none!important}
+body.bkmode details.menu summary{width:38px!important;height:38px!important}
+body.bkmode details.menu .dots{gap:5px!important}
+body.bkmode details.menu .dots span{width:5px!important;height:5px!important}
+@media(max-width:700px){
+ body.bkmode .mast{padding-right:46px!important}
+ body.bkmode details.menu{position:static!important;margin:0!important}
+ body.bkmode details.menu summary{position:absolute!important;right:4px!important;top:50%!important;margin-top:-18px!important;width:36px!important;height:36px!important}
+ body.bkmode details.menu .dots{gap:4px!important}
+ body.bkmode details.menu .dots span{width:4px!important;height:4px!important}
+}
+</style>
+<style id="compact-static-menu">
+details.menu summary{width:38px!important;height:38px!important}
+details.menu .dots{gap:5px!important}
+details.menu .dots span{width:5px!important;height:5px!important;animation:none!important;opacity:1!important}
+details.menu summary:after{animation:none!important;display:none!important}
+@media(max-width:700px){
+ details.menu summary{width:36px!important;height:36px!important;margin-top:-18px!important}
+ details.menu .dots{gap:4px!important}
+ details.menu .dots span{width:4px!important;height:4px!important}
+}
 </style>
 <style id="menu-center">details.menu>nav.mpanel::before{display:none!important}details.menu>nav.mpanel{position:fixed!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;margin:0!important;transform:translate(-50%,-50%);width:460px!important;max-width:calc(100vw - 48px)!important;max-height:calc(100vh - 48px)!important;overflow:auto!important;box-shadow:8px 8px 0 rgba(0,0,0,.5)!important;transform-origin:50% 50%!important}details.menu>nav.mpanel .mhome{padding:20px 18px!important;font-size:24px!important}details.menu>nav.mpanel .mgrp{padding:20px 20px 8px!important;font-size:13px!important}details.menu>nav.mpanel .msub .mrow{padding:12px 12px!important;font-size:17px!important}details.menu>nav.mpanel .mrow svg{width:24px;height:24px}details.menu>nav.mpanel .msub:last-child{margin-bottom:16px!important}@keyframes mcin{from{opacity:0;transform:translate(-50%,calc(-50% + 12px))}to{opacity:1;transform:translate(-50%,-50%)}}@keyframes mcout{from{opacity:1;transform:translate(-50%,-50%)}to{opacity:0;transform:translate(-50%,calc(-50% + 12px))}}details.menu[open]>nav.mpanel{animation:mcin .4s cubic-bezier(.4,0,.2,1)!important}details.menu.closing>nav.mpanel{animation:mcout .3s cubic-bezier(.4,0,.2,1) forwards!important}@media(max-width:700px){details.menu>nav.mpanel{width:300px!important;max-width:calc(100vw - 40px)!important;box-shadow:5px 5px 0 rgba(0,0,0,.5)!important}details.menu>nav.mpanel .mhome{padding:14px 14px!important;font-size:18px!important}details.menu>nav.mpanel .mgrp{padding:14px 14px 4px!important;font-size:11px!important}details.menu>nav.mpanel .msub{margin:0 10px 4px 16px!important}details.menu>nav.mpanel .msub .mrow{padding:8px 8px!important;font-size:14px!important}details.menu>nav.mpanel .mrow svg{width:19px;height:19px}details.menu>nav.mpanel .mrow.here i{font-size:12px!important}}@media(prefers-reduced-motion:reduce){details.menu>nav.mpanel{animation:none!important}}</style>
 </body></html>
