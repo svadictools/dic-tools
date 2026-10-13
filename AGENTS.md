@@ -26,4 +26,6 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
   - Locations: 5th Floor (Reception Office) and 1st Floor (Print Studio).
   - Current Day is the default view.
   - Week at a Glance is split by floor: a "5th Floor · Reception Office" section, then a "1st Floor · Print Studio" section, each with its own day cards and a one-line "Possible gaps" note underneath.
+  - **Week at a Glance design is locked.** Do not change its spacing, floor subheadings, day cards, gap between the two floors, or the "Possible gaps" lines (computer and phone).
+  - Current Day uses the same floor subheadings, spacing, floor separation and one "Possible gaps" line under each floor as Week at a Glance, with the large name cards.
 - **Design.** Black-and-white DIC style. Fields line up on computer and phone.
