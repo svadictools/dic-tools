@@ -18,6 +18,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
   - Each card shows the small 12px lock icon in its lower-right corner.
   - In every dotted menu, Consumables and Workshop Dashboard show the same 12px lock icon on the right side of the row.
   - Workshop Dashboard: the correct password opens the black-and-white Workshop Dashboard design on the same page (no new tab, no Google page). Never swap in the older Google dashboard design.
+  - Dashboard numbers are live: the DIC Consumables Helper copies the booking script's dashboard feed weekdays at 8 AM, 12 PM, 3 PM and 6 PM (refreshDashboard triggers). The page asks the helper for them after the password. Never edit the booking script; only read it.
   - Consumables: the correct password opens Consumables on the same page. Counts save to the "DIC Consumables" Google Sheet through its helper script (tools/consumables_helper.gs).
   - Never show a "Private DIC tool" page.
 - **Footer.** The footer is pinned to the bottom of the screen on every page, on computer and phone.
