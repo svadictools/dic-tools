@@ -14,6 +14,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
   - Plotter heading: "36″ & 44″ rolls".
 - **Staff tools.** Consumables and the Workshop Dashboard always ask for the admin password, every time. This applies from home page cards, menus, direct links and the back button.
   - Each card shows the small 12px lock icon in its lower-right corner.
+  - In every dotted menu, Consumables and Workshop Dashboard show the same 12px lock icon on the right side of the row.
   - The correct password opens the live tool in a new tab.
   - Never show a "Private DIC tool" page.
 - **Footer.** The footer is pinned to the bottom of the screen on every page, on computer and phone.
