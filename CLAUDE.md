@@ -17,7 +17,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
 - **Staff tools.** Consumables and the Workshop Dashboard always ask for the admin password, every time. This applies from home page cards, menus, direct links and the back button.
   - Each card shows the small 12px lock icon in its lower-right corner.
   - In every dotted menu, Consumables and Workshop Dashboard show the same 12px lock icon on the right side of the row.
-  - Workshop Dashboard: the correct password opens the existing Google dashboard (SVA link) in a new tab.
+  - Workshop Dashboard: the correct password opens the black-and-white Workshop Dashboard design on the same page (no new tab, no Google page). Never swap in the older Google dashboard design.
   - Consumables: the correct password opens Consumables on the same page. Counts save to the "DIC Consumables" Google Sheet through its helper script (tools/consumables_helper.gs).
   - Never show a "Private DIC tool" page.
 - **Footer.** The footer is pinned to the bottom of the screen on every page, on computer and phone.
