@@ -21,6 +21,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
   - Dashboard numbers are live: the DIC Consumables Helper copies the booking script's dashboard feed weekdays at 8 AM, 12 PM, 3 PM and 6 PM (refreshDashboard triggers). The page asks the helper for them after the password. Never edit the booking script; only read it.
   - Consumables: the correct password opens Consumables on the same page. Counts save to the "DIC Consumables" Google Sheet through its helper script (tools/consumables_helper.gs).
   - Never show a "Private DIC tool" page.
+- **Menu.** Every page shows the same dotted menu (Home, Workshops & Classes, Staff Schedule, Print Studio, Inventory). The script `menu-here` marks the page you are on with "You're already here" (Home on the landing page only). Do not remove it.
 - **Footer.** The footer is pinned to the bottom of the screen on every page, on computer and phone.
   - The credit line is small and light gray.
 - **Home page.** 4 aligned columns: Workshops & Classes, Print Studio, Inventory, Staff Schedule.

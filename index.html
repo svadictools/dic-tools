@@ -586,6 +586,37 @@ details.menu summary:after{animation:none!important;display:none!important}
 }
 </style>
 <style id="menu-center">details.menu>nav.mpanel::before{display:none!important}details.menu>nav.mpanel{position:fixed!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;margin:0!important;transform:translate(-50%,-50%);width:460px!important;max-width:calc(100vw - 48px)!important;max-height:calc(100vh - 48px)!important;overflow:auto!important;box-shadow:8px 8px 0 rgba(0,0,0,.5)!important;transform-origin:50% 50%!important}details.menu>nav.mpanel .mhome{padding:20px 18px!important;font-size:24px!important}details.menu>nav.mpanel .mgrp{padding:20px 20px 8px!important;font-size:13px!important}details.menu>nav.mpanel .msub .mrow{padding:12px 12px!important;font-size:17px!important}details.menu>nav.mpanel .mrow svg{width:24px;height:24px}details.menu>nav.mpanel .msub:last-child{margin-bottom:16px!important}@keyframes mcin{from{opacity:0;transform:translate(-50%,calc(-50% + 12px))}to{opacity:1;transform:translate(-50%,-50%)}}@keyframes mcout{from{opacity:1;transform:translate(-50%,-50%)}to{opacity:0;transform:translate(-50%,calc(-50% + 12px))}}details.menu[open]>nav.mpanel{animation:mcin .4s cubic-bezier(.4,0,.2,1)!important}details.menu.closing>nav.mpanel{animation:mcout .3s cubic-bezier(.4,0,.2,1) forwards!important}@media(max-width:700px){details.menu>nav.mpanel{width:300px!important;max-width:calc(100vw - 40px)!important;box-shadow:5px 5px 0 rgba(0,0,0,.5)!important}details.menu>nav.mpanel .mhome{padding:14px 14px!important;font-size:18px!important}details.menu>nav.mpanel .mgrp{padding:14px 14px 4px!important;font-size:11px!important}details.menu>nav.mpanel .msub{margin:0 10px 4px 16px!important}details.menu>nav.mpanel .msub .mrow{padding:8px 8px!important;font-size:14px!important}details.menu>nav.mpanel .mrow svg{width:19px;height:19px}details.menu>nav.mpanel .mrow.here i{font-size:12px!important}}@media(prefers-reduced-motion:reduce){details.menu>nav.mpanel{animation:none!important}}</style>
+<script id="menu-here">(function(){
+var CANON=null,HERE='You’re already here';
+function page(){try{return (window.dicHash?dicHash():location.hash).replace('#','');}catch(e){return '';}}
+function nameOf(a){var h=a.getAttribute('href')||'';var m=h.match(/^#([a-z]+)$/)||h.match(/\/([a-z]+)\/?$/);return m?m[1]:'';}
+function label(a){if(!a.dataset.lbl){var s=a.querySelector('span');a.dataset.lbl=s?s.textContent.replace(HERE,'').trim():'';}return a.dataset.lbl;}
+function homeUrl(){try{return window.dicUrl?dicUrl(''):'../';}catch(e){return '../';}}
+function mark(doc,p,isShell){
+ [].forEach.call(doc.querySelectorAll('nav.mpanel'),function(nav){
+  if(!isShell&&CANON&&nav.dataset.canon!=='1'){nav.innerHTML=CANON;nav.dataset.canon='1';}if(!isShell&&!doc.getElementById('mh-style')){var st=doc.createElement('style');st.id='mh-style';st.textContent=".mhome i{display:block;margin-top:5px;font:italic 400 12px/1 'Instrument Sans',sans-serif;letter-spacing:0;text-transform:none;color:#bbb}.mhome svg{flex:none}";(doc.head||doc.documentElement).appendChild(st);}
+  [].forEach.call(nav.querySelectorAll('.mrow'),function(a){
+   if(a.tagName!=='A')return;var n=nameOf(a),s=a.querySelector('span'),L=label(a);if(!s)return;
+   if(n===p){a.classList.add('here');a.setAttribute('aria-current','page');s.innerHTML='<b></b><i>'+HERE+'</i>';s.firstChild.textContent=L;}
+   else{a.classList.remove('here');a.removeAttribute('aria-current');s.textContent=L;}
+  });
+  var hm=nav.querySelector('.mhome');
+  if(hm){var hs=hm.querySelector('span');
+   if(!isShell&&hm.tagName!=='A'){var na=doc.createElement('a');na.className='mhome';na.innerHTML=hm.innerHTML;hm.parentNode.replaceChild(na,hm);hm=na;hs=hm.querySelector('span');}
+   if(hm.tagName==='A')hm.setAttribute('href',homeUrl());
+   if(p===''){hm.classList.remove('mhl');hm.setAttribute('aria-current','page');if(hs)hs.innerHTML='Home<i>'+HERE+'</i>';}
+   else{hm.classList.add('mhl');hm.removeAttribute('aria-current');if(hs)hs.innerHTML='Home<i>DIC Tools &amp; Resources</i>';}}
+ });}
+function canon(){if(CANON)return;var nav=document.querySelector('nav.mpanel');if(!nav||!nav.querySelector('a.mrow[href*="schedule"]'))return;
+ var c=nav.cloneNode(true);[].forEach.call(c.querySelectorAll('.mrow'),function(a){a.classList.remove('here');a.removeAttribute('aria-current');var s=a.querySelector('span');if(s)s.textContent=s.textContent.replace(HERE,'').trim();});CANON=c.innerHTML;}
+function all(){canon();var p=page();mark(document,p,true);[].forEach.call(document.querySelectorAll('iframe'),function(f){try{var d=f.contentDocument;if(d&&d.querySelector('nav.mpanel'))mark(d,p,false);}catch(e){}});}
+window.dicMarkHere=all;
+function hookFrames(){[].forEach.call(document.querySelectorAll('iframe'),function(f){if(f.dataset.mh)return;f.dataset.mh='1';f.addEventListener('load',function(){setTimeout(all,0);try{f.contentDocument.addEventListener('toggle',function(e){if(e.target.open)all();},true);}catch(e){}});});}
+document.addEventListener('toggle',function(e){if(e.target&&e.target.matches&&e.target.matches('details.menu')&&e.target.open)all();},true);
+function boot(){hookFrames();all();setTimeout(all,500);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+window.addEventListener('load',boot);window.addEventListener('hashchange',all);window.addEventListener('popstate',all);
+})();</script>
 <script id="title-lock">(function(){
 var TITLES=["DIC Tools & Resources","Workshop Booking","Classroom Lookup","Student Workers","DIC Calculator","DIC Price Chart","Workshop Dashboard","Consumables Report"],busy=false;
 function vis(e){var r=e.getBoundingClientRect();return r.width>0&&r.height>0;}
