@@ -619,6 +619,25 @@ function boot(){hookFrames();all();setTimeout(all,500);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 window.addEventListener('load',boot);window.addEventListener('hashchange',all);window.addEventListener('popstate',all);
 })();</script>
+<script id="top-arrow">(function(){
+var CSS='#dic-top{display:none}#dic-top-space{height:0}@media(max-width:700px){#dic-top{position:fixed;right:16px;bottom:16px;z-index:2147483000;width:40px;height:40px;border-radius:50%;background:#000;color:#fff;border:0;padding:0;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s ease;cursor:pointer;-webkit-tap-highlight-color:transparent}#dic-top.on{opacity:1;pointer-events:auto}#dic-top svg{display:block}#dic-top-space{height:64px}}';
+var ARROW='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+function setup(w){try{var d=w.document;if(!d||!d.body||d.getElementById('dic-top'))return;
+ var st=d.createElement('style');st.id='dic-top-css';st.textContent=CSS;(d.head||d.documentElement).appendChild(st);
+ var sp=d.createElement('div');sp.id='dic-top-space';sp.setAttribute('aria-hidden','true');d.body.appendChild(sp);
+ var b=d.createElement('button');b.id='dic-top';b.type='button';b.setAttribute('aria-label','Back to top');b.innerHTML=ARROW;d.body.appendChild(b);
+ var foot=null;
+ function findFoot(){foot=null;[].forEach.call(d.querySelectorAll('body *'),function(e){if(e===b||e.id==='mveil'||e.id==='tview')return;var cs=w.getComputedStyle(e);if(cs.position!=='fixed')return;var r=e.getBoundingClientRect();if(r.height>20&&r.height<220&&r.bottom>=w.innerHeight-2&&r.width>=w.innerWidth*0.8){if(!foot||r.top<foot.getBoundingClientRect().top)foot=e;}});}
+ function place(){var se=d.scrollingElement;if(w.innerWidth>700||!se||w.getComputedStyle(d.documentElement).overflowY==='hidden'||se.scrollHeight<=w.innerHeight+40){b.classList.remove('on');return;}
+  if(!foot||!foot.isConnected)findFoot();var fh=foot?Math.max(0,w.innerHeight-foot.getBoundingClientRect().top):0;b.style.bottom=(fh+12)+'px';
+  b.classList.toggle('on',(w.scrollY+w.innerHeight)>=(se.scrollHeight-140));}
+ b.addEventListener('click',function(){try{w.scrollTo({top:0,behavior:'smooth'});}catch(e){w.scrollTo(0,0);}});
+ w.addEventListener('scroll',place,{passive:true});w.addEventListener('resize',function(){foot=null;place();});
+ setTimeout(place,600);}catch(e){}}
+function hook(){setup(window);[].forEach.call(document.querySelectorAll('iframe'),function(f){if(f.dataset.ta)return;f.dataset.ta='1';f.addEventListener('load',function(){setTimeout(function(){setup(f.contentWindow);},300);});try{if(f.contentDocument&&f.contentDocument.readyState==='complete')setup(f.contentWindow);}catch(e){}});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hook);else hook();
+window.addEventListener('load',hook);
+})();</script>
 <script id="title-lock">(function(){
 var TITLES=["DIC Tools & Resources","Workshop Booking","Classroom Lookup","Student Workers","DIC Calculator","DIC Price Chart","Workshop Dashboard","Consumables Report"],busy=false;
 function vis(e){var r=e.getBoundingClientRect();return r.width>0&&r.height>0;}

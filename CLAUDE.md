@@ -22,6 +22,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
   - Consumables: the correct password opens Consumables on the same page. Counts save to the "DIC Consumables" Google Sheet through its helper script (tools/consumables_helper.gs).
   - Never show a "Private DIC tool" page.
 - **Menu.** Every page shows the same dotted menu (Home, Workshops & Classes, Staff Schedule, Print Studio, Inventory). The script `menu-here` marks the page you are on with "You're already here" (Home on the landing page only). Do not remove it. The dotted menu is the main navigation: never add back links such as "← All DIC tools" or "Back to DIC Tools" on any page.
+- **Back-to-top arrow (phone only, locked).** Script `top-arrow`: a small 40px black circle with a white arrow, bottom right, just above the pinned footer. It appears only when you reach the bottom of a page and never covers content. Never shown on computer.
 - **Footer.** The footer is pinned to the bottom of the screen on every page, on computer and phone.
   - The credit line is small and light gray.
 - **Home page.** 4 aligned columns: Workshops & Classes, Print Studio, Inventory, Staff Schedule.
