@@ -192,15 +192,16 @@ body.clmode .hubonly,body.scmode .hubonly{display:none!important}
 .bback:hover{color:#555;border-color:#555}
 .bback:focus-visible{outline:3px solid #000;outline-offset:3px}
 
-/* bk4-desktop: 4 booking cards across on computer */
+/* bk4-desktop: 4 booking cards across on computer, up to 50% bigger, centered with side margins */
 @media(min-width:901px){
- :root{--sq:calc((min(100vw - 17px,1120px) - 96px - 48px) / 4)}
- .bkw{width:100%}
+ :root{--sq:min(366px,max(calc((min(100vw - 17px,1120px) - 96px - 48px) / 4),calc((100vw - 17px - 128px - 60px) / 4)))}
+ .bkw{width:calc(var(--sq) * 4 + 60px);margin-left:calc((100% - (var(--sq) * 4 + 60px)) / 2)}
  body.bkmode .wrap,body.bkmode .wrap3{max-width:1120px!important}
  body.bkmode .fbarx>div{max-width:1120px!important}
- .bk{grid-template-columns:repeat(4,minmax(0,1fr))}
- .card{width:100%;height:auto;aspect-ratio:1/1}
+ .bk{grid-template-columns:repeat(4,var(--sq));gap:20px}
+ .card{width:var(--sq);height:var(--sq)}
 }
+
 </style><style>
 #credit{transition:opacity .5s ease}
 #credit.hide{opacity:0;pointer-events:none}
