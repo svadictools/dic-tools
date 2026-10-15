@@ -191,6 +191,16 @@ body.clmode .hubonly,body.scmode .hubonly{display:none!important}
 .bback{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;font:700 12px/1 'Instrument Sans',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#000;border-bottom:2px solid #000;padding-bottom:4px}
 .bback:hover{color:#555;border-color:#555}
 .bback:focus-visible{outline:3px solid #000;outline-offset:3px}
+
+/* bk4-desktop: 4 booking cards across on computer */
+@media(min-width:901px){
+ :root{--sq:calc((min(100vw - 17px,1120px) - 96px - 48px) / 4)}
+ .bkw{width:100%}
+ body.bkmode .wrap,body.bkmode .wrap3{max-width:1120px!important}
+ body.bkmode .fbarx>div{max-width:1120px!important}
+ .bk{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .card{width:100%;height:auto;aspect-ratio:1/1}
+}
 </style><style>
 #credit{transition:opacity .5s ease}
 #credit.hide{opacity:0;pointer-events:none}
@@ -386,6 +396,7 @@ var BOOKINGS = [
   document.addEventListener('touchcancel', clearTouchHover, {passive:true});
   /* shrink a name only if it is too wide for its box (never cut off) */
   function fitNames(){
+    var fit = [];
     [].forEach.call(bk.querySelectorAll('.cname'), function(n){
       n.style.fontSize = ''; n.style.whiteSpace = 'nowrap';
       var words = n.textContent.split(' '), size = parseFloat(getComputedStyle(n).fontSize);
@@ -395,8 +406,11 @@ var BOOKINGS = [
       n.appendChild(probe);
       var widest = 0; words.forEach(function(w){ probe.textContent = w; widest = Math.max(widest, probe.getBoundingClientRect().width); });
       n.removeChild(probe);
-      if (widest > box && widest > 0) n.style.fontSize = Math.floor(size * box / widest) + 'px';
+      fit.push([n, size, (widest > box && widest > 0) ? box / widest : 1]);
     });
+    /* one shared size so every card name matches */
+    var k = fit.reduce(function(m, f){ return Math.min(m, f[2]); }, 1);
+    if (k < 1) fit.forEach(function(f){ f[0].style.fontSize = Math.floor(f[1] * k) + 'px'; });
   }
   fitNames(); window.addEventListener('resize', fitNames); window.addEventListener('load', fitNames);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
