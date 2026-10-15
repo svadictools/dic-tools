@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Back-to-Top Samples | DIC Tools (preview)</title>
+<style>
+html,body{margin:0;background:#f2f2f2;color:#000;font:400 15px/1.4 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:2px solid #000;padding:12px 16px}
+h1{margin:0 0 4px;font:800 18px/1.1 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:.02em}
+.sub{color:#555;font-size:13px;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.row b{font-size:11px;letter-spacing:.1em;text-transform:uppercase;align-self:center;min-width:48px}
+button.opt{all:unset;cursor:pointer;border:2px solid #000;padding:7px 10px;font:700 12px/1 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;letter-spacing:.04em;background:#fff}
+button.opt[aria-pressed=true]{background:#000;color:#fff}
+.desc{margin-top:10px;font-size:13px;color:#333;min-height:2.6em}
+.stage{display:flex;justify-content:center;padding:18px 0 30px}
+.phone{width:390px;height:760px;border:10px solid #000;border-radius:36px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+@media(max-width:700px){.stage{padding:0}.phone{width:100vw;height:calc(100vh - 190px);border:0;border-radius:0;box-shadow:none}}
+</style></head><body>
+<div class="bar">
+  <h1>Back-to-Top Arrow · 3 Samples</h1>
+  <div class="sub">Phone only. Scroll the page inside the phone all the way down to see the arrow, then tap it.</div>
+  <div class="row" id="styles"><b>Style</b>
+    <button class="opt" data-s="A" aria-pressed="true">A · Circle</button>
+    <button class="opt" data-s="B" aria-pressed="false">B · In footer</button>
+    <button class="opt" data-s="C" aria-pressed="false">C · Centered tab</button>
+  </div>
+  <div class="row" id="pages"><b>Page</b>
+    <button class="opt" data-p="pricechart/" aria-pressed="true">Price Chart</button>
+    <button class="opt" data-p="calculator/" aria-pressed="false">Calculator</button>
+    <button class="opt" data-p="" aria-pressed="false">Home</button>
+    <button class="opt" data-p="booking/" aria-pressed="false">Booking</button>
+  </div>
+  <div class="desc" id="desc"></div>
+</div>
+<div class="stage"><div class="phone"><iframe id="ph" title="Phone preview"></iframe></div></div>
+<script>
+(function(){
+var DESC={
+ A:"A · Circle: a small black circle with a white arrow, bottom right, sitting just above the black footer. Shows only once you reach the bottom; the page gets a little extra space at the end so it never covers anything.",
+ B:"B · In footer: a small white “TOP ↑” inside the right end of the black footer. Shows only once you reach the bottom. Never touches the page content.",
+ C:"C · Centered tab: a small outlined “↑ Top” tab, centered just above the black footer. Shows only once you reach the bottom, in its own blank space."
+};
+var style='A',page='pricechart/',fr=document.getElementById('ph');
+function css(s){
+ var base='#dic-top{position:fixed;z-index:2147483000;opacity:0;pointer-events:none;transition:opacity .25s ease;-webkit-tap-highlight-color:transparent;cursor:pointer;border:0;padding:0;margin:0;font:700 12px/1 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}#dic-top.on{opacity:1;pointer-events:auto}#dic-top svg{display:block}';
+ if(s==='A')return base+'#dic-top{right:16px;width:40px;height:40px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25)}';
+ if(s==='B')return base+'#dic-top{right:16px;height:26px;padding:0 9px;background:transparent;color:#fff;border:1.5px solid #fff;border-radius:2px;display:flex;align-items:center;gap:6px;font-size:11px}';
+ return base+'#dic-top{left:50%;transform:translateX(-50%);height:30px;padding:0 14px;background:#fff;color:#000;border:2px solid #000;border-radius:2px;display:flex;align-items:center;gap:6px}';
+}
+var ARROW='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+function footerOf(d){var w=d.defaultView;var best=null;[].forEach.call(d.querySelectorAll('body *'),function(e){var cs=w.getComputedStyle(e);if(cs.position!=='fixed')return;var r=e.getBoundingClientRect();if(r.height>20&&r.height<220&&r.bottom>=w.innerHeight-2&&r.width>=w.innerWidth*0.8&&!/mveil|tview/.test(e.id+' '+e.className)){if(!best||r.top<best.getBoundingClientRect().top)best=e;}});return best;}
+function scroller(d){var w=d.defaultView;return d.scrollingElement&&d.scrollingElement.scrollHeight>w.innerHeight+40&&w.getComputedStyle(d.documentElement).overflowY!=='hidden';}
+function apply(d){
+ try{var w=d.defaultView;if(!d.body||!scroller(d))return;
+  var st=d.getElementById('dic-top-css');if(!st){st=d.createElement('style');st.id='dic-top-css';d.head.appendChild(st);}st.textContent=css(style);
+  var b=d.getElementById('dic-top');if(!b){b=d.createElement('button');b.id='dic-top';b.type='button';b.setAttribute('aria-label','Back to top');d.body.appendChild(b);b.addEventListener('click',function(){w.scrollTo({top:0,behavior:'smooth'});});}
+  b.innerHTML=style==='A'?ARROW:(style==='B'?'Top '+ARROW:ARROW+' Top');
+  var sp=d.getElementById('dic-top-space');if(!sp){sp=d.createElement('div');sp.id='dic-top-space';d.body.appendChild(sp);}
+  sp.style.height=(style==='B'?'0px':'64px');
+  function place(){var f=footerOf(d);var fh=f?(w.innerHeight-f.getBoundingClientRect().top):0;
+   if(style==='B'&&f){var bars=[f].concat([].slice.call(f.querySelectorAll('*'))).filter(function(x){var cs=w.getComputedStyle(x);return /^rgba?\(0, 0, 0(, 1)?\)$/.test(cs.backgroundColor)&&x.getBoundingClientRect().height>30;});var bt=bars.length?bars[0].getBoundingClientRect().top:f.getBoundingClientRect().top;b.style.bottom=Math.max(8,(w.innerHeight-bt)-8-26)+'px';}else{b.style.bottom=(fh+12)+'px';}
+   var near=(w.scrollY+w.innerHeight)>=(d.scrollingElement.scrollHeight-140);b.classList.toggle('on',near);}
+  if(!w.__dicTop){w.__dicTop=1;w.addEventListener('scroll',place,{passive:true});w.addEventListener('resize',place);}
+  w.__dicPlace=place;place();
+ }catch(e){}
+}
+function walk(win){try{apply(win.document);[].forEach.call(win.document.querySelectorAll('iframe'),function(f){try{walk(f.contentWindow);if(!f.__dicHook){f.__dicHook=1;f.addEventListener('load',function(){setTimeout(function(){walk(f.contentWindow);},400);});}}catch(e){}});}catch(e){}}
+function load(){fr.src='../'+page+'?s='+Date.now();}
+fr.addEventListener('load',function(){[300,900,1800,3000].forEach(function(t){setTimeout(function(){walk(fr.contentWindow);},t);});});
+function pick(groupId,attr,cb){var g=document.getElementById(groupId);g.addEventListener('click',function(e){var bt=e.target.closest('button.opt');if(!bt)return;[].forEach.call(g.querySelectorAll('button.opt'),function(x){x.setAttribute('aria-pressed',x===bt?'true':'false');});cb(bt.getAttribute(attr));});}
+pick('styles','data-s',function(s){style=s;document.getElementById('desc').textContent=DESC[s];walk(fr.contentWindow);});
+pick('pages','data-p',function(p){page=p;load();});
+document.getElementById('desc').textContent=DESC[style];
+load();
+})();
+</script>
+</body></html>
