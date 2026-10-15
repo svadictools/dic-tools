@@ -7,6 +7,7 @@ Owner: Stephen Alvarado, DIC Manager. Make only the changes he asks for, and sho
 2. Change only what was asked. Keep everything listed below as is.
 3. Check every change on computer and phone before saving.
 4. Preview first at `preview/index.html` (served at /dic-tools/preview/). Update the live `index.html` only after the owner approves.
+5. Keep the preview up to date at all times. Every change goes into `preview/index.html` first. After publishing, `preview/index.html` must match `index.html` exactly (only the noindex tag differs). Never change `index.html` without the same change in the preview.
 
 ## Locked: do not undo
 - **No Claude or ChatGPT pages.** Every button opens a page on this GitHub site (or a Google page). Never link to claude.ai or chatgpt.com.
