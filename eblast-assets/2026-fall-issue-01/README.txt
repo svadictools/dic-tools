@@ -11,3 +11,5 @@ cover-fall.jpg         FALL cover
 04-dic-tools.jpg       story 04 poster (DIC Tools & Resources, names replaced)
 05-type-into-3d.jpg    story 05 poster (Illustrator, Blender, Bambu Studio)
 06-software-help.jpg   story 06 poster (Cinema 4D, Figma, booklet)
+
+email.html             the email itself (the DIC FEED Apps Script reads it from here)
