@@ -663,6 +663,19 @@ function boot(){hookFrames();all();setTimeout(all,500);}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 window.addEventListener('load',boot);window.addEventListener('hashchange',all);window.addEventListener('popstate',all);
 })();</script>
+<script id="seal-center">(function(){
+function fix(d){try{var w=d.defaultView;var ms=[].filter.call(d.querySelectorAll('.mast'),function(m){return m.getBoundingClientRect().width>0});ms.forEach(function(m){var img=m.querySelector('img.dic-seal'),t=m.querySelector('.ttl,.ttl2');if(!img||!t)return;
+ if(w.innerWidth>700){img.style.position='';img.style.top='';return;}
+ var r=d.createRange();r.selectNodeContents(t);var top=1e9;[].forEach.call(r.getClientRects(),function(q){if(q.height>0)top=Math.min(top,q.top);});if(top===1e9)return;
+ var eb=t.nextElementSibling,bot=eb?eb.getBoundingClientRect().bottom:t.getBoundingClientRect().bottom;
+ var cur=parseFloat(img.style.top)||0;img.style.position='relative';var ir=img.getBoundingClientRect();var c=(ir.top+ir.bottom)/2-cur;
+ img.style.top=Math.round(((top+bot)/2)-c)+'px';});}catch(e){}}
+function all(){fix(document);[].forEach.call(document.querySelectorAll('iframe'),function(f){try{if(f.contentDocument)fix(f.contentDocument)}catch(e){}});}
+function later(){[0,500,1400,2600].forEach(function(t){setTimeout(all,t)});}
+window.addEventListener('load',later);window.addEventListener('resize',later);window.addEventListener('hashchange',later);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later);
+document.addEventListener('DOMContentLoaded',function(){[].forEach.call(document.querySelectorAll('iframe'),function(f){f.addEventListener('load',later)});});later();
+})();</script>
 <script id="top-arrow">(function(){
 var CSS='#dic-top{display:none}#dic-top-space{height:0}@media(max-width:700px){#dic-top{position:fixed;right:16px;bottom:16px;z-index:2147483000;width:40px;height:40px;border-radius:50%;background:#000;color:#fff;border:0;padding:0;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s ease;cursor:pointer;-webkit-tap-highlight-color:transparent}#dic-top.on{opacity:1;pointer-events:auto}#dic-top svg{display:block}#dic-top-space{height:64px}}';
 var ARROW='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
