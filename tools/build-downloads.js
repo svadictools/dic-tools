@@ -11,5 +11,5 @@ const jobs=[
  for(const j of jobs){const p=await b.newPage();await p.goto('file://'+path.join(root,j.src));
   await p.evaluate(o=>{document.body.className=document.body.className||'dA';if(o){document.querySelectorAll('.guide').forEach(g=>{if(g.id!==o)g.remove();else g.classList.add('on');});}document.querySelectorAll('.top').forEach(e=>e.remove());},j.only||null);
   await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(300);
-  await p.pdf({path:path.join(root,j.out),format:'Letter',printBackground:true});console.log('built',j.out);}
+  await p.pdf({path:path.join(root,j.out),format:'Letter',printBackground:true,preferCSSPageSize:true});console.log('built',j.out);}
  await b.close();})();

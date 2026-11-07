@@ -87,10 +87,10 @@ tr:last-child td{border-bottom:0}
 .top .sep{width:2px;height:24px;background:#000;margin:0 6px}
 /* ===== A · Rail ===== */
 .dA .sec{position:relative;margin-top:18px;padding-left:58px}
-.dA .sec::before{content:"";position:absolute;left:21px;top:44px;bottom:-22px;width:2px;background:var(--ink)}
+.dA .sec::before{content:"";position:absolute;left:21px;top:44px;bottom:-22px;width:2px;background:#00a7cf}
 .dA .sheet .sec:last-of-type::before{display:none}
 .dA .sh{background:none;color:var(--ink);padding:0 0 6px;border-bottom:2px solid var(--ink)}
-.dA .sh .sn{position:absolute;left:0;top:-4px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:22px}
+.dA .sh .sn{position:absolute;left:0;top:-4px;width:44px;height:44px;border-radius:50%;background:#00a7cf;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px}
 .dA .sh .h{font-size:24px}
 .dA .stag{border-color:var(--ink);color:var(--ink)}
 .dA .sb{border:0;padding:10px 0 0}
@@ -135,8 +135,10 @@ tr:last-child td{border-bottom:0}
 .dA .fr{font-size:13px}
 .cols2{columns:2;column-gap:24px}.cols2 li{break-inside:avoid}
 .dA .card .cb p{font-size:15px}
-@page{size:letter;margin:0}
-@media print{body{background:#fff}.top{display:none}.guide{display:block!important}.pair{display:block;padding:0}.side-lbl{display:none}.sheet{box-shadow:none;width:8.5in;height:11in;break-after:page}}
+
+/* Print safe zone: keep everything 1/4 inch from every paper edge (print only) */
+@page{size:letter;margin:0.25in}
+@media print{html,body{background:#fff;margin:0}.top{display:none}.guide{display:block!important}.pair{display:block;padding:0}.side-wrap{display:block}.side-lbl{display:none}.sheet{box-shadow:none;width:816px;height:1056px;zoom:0.9545;break-after:page;break-inside:avoid}}
 </style>
 <div class="top" role="group" aria-label="Choose a guide"><b>Test preview</b>
 <button type="button" id="bps" data-g="ps" aria-pressed="true">Print Studio</button>
