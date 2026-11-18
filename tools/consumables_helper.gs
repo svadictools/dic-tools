@@ -79,14 +79,7 @@ function write_(changes) {
   var log = book_().getSheetByName(LOG_TAB);
   changes.forEach(function (c) {
     var r = row[c.id];
-    if (!r) {
-      // Item is on the page but missing from the sheet (e.g. filament): add its row instead of dropping the count.
-      var blank = head.map(function () { return ''; });
-      blank[0] = c.id;
-      s.appendRow(blank);
-      r = s.getLastRow();
-      row[c.id] = r;
-    }
+    if (!r) return;
     EDITABLE.forEach(function (f) {
       if (!(f in c)) return;
       var col = head.indexOf(f) + 1;
