@@ -77,18 +77,51 @@ function write_(changes) {
   var head = v[0], row = {};
   for (var i = 1; i < v.length; i++) row[v[i][0]] = i + 1;
   var log = book_().getSheetByName(LOG_TAB);
+  var track = countTab_();
   changes.forEach(function (c) {
     var r = row[c.id];
     if (!r) return;
+    var old = v[r - 1];
     EDITABLE.forEach(function (f) {
       if (!(f in c)) return;
       var col = head.indexOf(f) + 1;
       if (col < 1) return;
       var val = (c[f] === null || c[f] === undefined) ? '' : c[f];
+      var before = old[col - 1];
+      if (before instanceof Date) before = before.toISOString();
       s.getRange(r, col).setValue(val);
+      if (track && TRACKED[f] && String(before) !== String(val)) {
+        var now = new Date();
+        var sub = old[head.indexOf('subtitle')];
+        track.appendRow([
+          Utilities.formatDate(now, 'America/New_York', 'MMM d, yyyy'),
+          Utilities.formatDate(now, 'America/New_York', 'h:mm a'),
+          SECTIONS[old[head.indexOf('category')]] || old[head.indexOf('category')],
+          old[head.indexOf('name')] + (sub ? ' (' + sub + ')' : ''),
+          TRACKED[f],
+          before === '' ? 'blank' : before,
+          val === '' ? 'blank' : val
+        ]);
+      }
     });
     if (log) log.appendRow([new Date(), c.id, c.haveNow, c.wantToKeep]);
   });
+}
+
+/** Track record: one easy-to-read line per change, in the "Consumables Count" tab. */
+var COUNT_TAB = 'Consumables Count';
+var TRACKED = { haveNow: 'Count', wantToKeep: 'Target', reorderAt: 'Low-stock alert' };
+var SECTIONS = { 'canon-paper': 'Paper', 'canon-toner': 'Toner', 'riso': 'Riso', 'plotter': 'Plotter', 'general': 'Supplies', 'cutting': 'Rotatrim', 'filament': 'Filament' };
+function countTab_() {
+  var ss = book_();
+  var t = ss.getSheetByName(COUNT_TAB);
+  if (!t) {
+    t = ss.insertSheet(COUNT_TAB, ss.getSheets().length);
+    t.appendRow(['Date', 'Time', 'Section', 'Item', 'What changed', 'Before', 'After']);
+    t.getRange(1, 1, 1, 7).setFontWeight('bold');
+    t.setFrozenRows(1);
+  }
+  return t;
 }
 
 /** Run once from the editor: builds the Items and Log tabs with the current counts. */
