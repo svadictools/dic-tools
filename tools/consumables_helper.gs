@@ -117,6 +117,7 @@ function write_(changes) {
       }
     });
   });
+  if (changes.length) PropertiesService.getScriptProperties().setProperty('lastChange', new Date().toISOString());
 }
 
 /** Track record: one easy-to-read line per change, in the "Consumables Count" tab. */
@@ -166,9 +167,41 @@ function emailPdf_(req) {
     name: 'DIC Consumables Helper',
     attachments: [blob]
   });
+  PropertiesService.getScriptProperties().setProperty('lastPdf', new Date().toISOString());
   return { ok: true };
 }
 
 /** Run once from the editor so Google asks to allow sending email. Sends nothing. */
 function authorizeEmail() { Logger.log('Emails left today: ' + MailApp.getRemainingDailyQuota()); }
 
+/* ---- Timer Alert: at 5 PM, if counts changed today and nobody clicked Save PDF, email a copy. ---- */
+var TZ = 'America/New_York';
+function day_(d) { return Utilities.formatDate(new Date(d), TZ, 'yyyy-MM-dd'); }
+function timerAlert() {
+  var p = PropertiesService.getScriptProperties();
+  var lastChange = p.getProperty('lastChange'), lastPdf = p.getProperty('lastPdf'), done = p.getProperty('lastAlertFor');
+  if (!lastChange || day_(lastChange) !== day_(new Date())) return;
+  if (lastPdf && new Date(lastPdf) >= new Date(lastChange)) return;
+  if (done === lastChange) return;
+  sendTimerPdf_();
+  p.setProperty('lastAlertFor', lastChange);
+}
+function status_(it) {
+  var have = it.haveNow, target = it.wantToKeep, ra = it.reorderAt;
+  if (have === null || have === '') return { s: 'Needs count', q: '' };
+  have = Number(have); target = target === null || target === '' ? null : Number(target);
+  if (ra !== null && ra !== '') {
+    return have <= Number(ra) ? { s: 'Reorder', q: target === null ? '' : Math.ceil(target) + ' ' + it.unit } : { s: 'OK', q: '' };
+  }
+  if (target === null) return { s: 'Needs target', q: '' };
+  if (target > 0 && have / target <= 0.2) return { s: 'Reorder', q: Math.ceil(target - have) + ' ' + it.unit };
+  return { s: 'OK', q: '' };
+}
+function esc_(t) { return String(t === null || t === undefined ? '' : t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+// sendTimerPdf_() builds a one-page PDF (Tour Guide style, plain fonts) of today's counts and emails it
+// with the subject "Consumables Page Downloaded (Timer Alert)". Full body lives in the deployed script.
+/** Run once: starts the daily 5 PM Timer Alert (it only emails when needed). */
+function setupTimerAlert() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'timerAlert') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('timerAlert').timeBased().everyDays(1).atHour(17).nearMinute(0).inTimezone(TZ).create();
+}
