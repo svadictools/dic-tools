@@ -76,7 +76,6 @@ function write_(changes) {
   var v = s.getDataRange().getValues();
   var head = v[0], row = {};
   for (var i = 1; i < v.length; i++) row[v[i][0]] = i + 1;
-  var log = book_().getSheetByName(LOG_TAB);
   var track = countTab_();
   changes.forEach(function (c) {
     var r = row[c.id];
@@ -90,6 +89,17 @@ function write_(changes) {
       var before = old[col - 1];
       if (before instanceof Date) before = before.toISOString();
       s.getRange(r, col).setValue(val);
+      // Same number typed again: still log that it was rechecked.
+      if (track && f === 'haveNowUpdated' && val !== '' && String(before) !== String(val) && String(old[head.indexOf('haveNow')]) === String(c.haveNow)) {
+        var nw = new Date(), sb = old[head.indexOf('subtitle')];
+        track.appendRow([
+          Utilities.formatDate(nw, 'America/New_York', 'MMM d, yyyy'),
+          Utilities.formatDate(nw, 'America/New_York', 'h:mm a'),
+          SECTIONS[old[head.indexOf('category')]] || old[head.indexOf('category')],
+          old[head.indexOf('name')] + (sb ? ' (' + sb + ')' : ''),
+          'Count (rechecked)', c.haveNow, c.haveNow
+        ]);
+      }
       if (track && TRACKED[f] && String(before) !== String(val)) {
         var now = new Date();
         var sub = old[head.indexOf('subtitle')];
@@ -104,7 +114,6 @@ function write_(changes) {
         ]);
       }
     });
-    if (log) log.appendRow([new Date(), c.id, c.haveNow, c.wantToKeep]);
   });
 }
 
@@ -120,6 +129,7 @@ function countTab_() {
     t.appendRow(['Date', 'Time', 'Section', 'Item', 'What changed', 'Before', 'After']);
     t.getRange(1, 1, 1, 7).setFontWeight('bold');
     t.setFrozenRows(1);
+    t.hideSheet();
   }
   return t;
 }
