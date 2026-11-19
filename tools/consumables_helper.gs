@@ -161,8 +161,8 @@ function emailPdf_(req) {
   var blob = Utilities.newBlob(Utilities.base64Decode(req.pdf), 'application/pdf', name);
   MailApp.sendEmail({
     to: REPORT_TO,
-    subject: 'Consumables updated: ' + tabs,
-    body: 'Consumables was updated for ' + tabs + ' only. PDF attached.',
+    subject: 'Consumables Page Downloaded',
+    body: 'A Consumables PDF was downloaded at ' + Utilities.formatDate(new Date(), 'America/New_York', 'h:mm a') + '. Updated: ' + tabs + ' only. Your copy is attached.',
     name: 'DIC Consumables Helper',
     attachments: [blob]
   });
