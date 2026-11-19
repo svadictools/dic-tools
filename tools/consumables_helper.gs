@@ -28,6 +28,8 @@ function doPost(e) {
       lock.waitLock(20000);
       try { write_(req.changes || []); res = { ok: true, items: read_() }; }
       finally { lock.releaseLock(); }
+    } else if (req.action === 'emailPdf') {
+      res = emailPdf_(req);
     } else {
       res = { ok: false, error: 'action' };
     }
@@ -149,3 +151,24 @@ function setup() {
   if (log.getLastRow() === 0) log.appendRow(['When', 'Item', 'Have now', 'Want to keep']);
   Logger.log('Set up ' + rows.length + ' items.');
 }
+
+/** Emails Stephen the same PDF staff just saved on Consumables. Only goes to him. */
+var REPORT_TO = 'salvarado@sva.edu';
+function emailPdf_(req) {
+  if (!req.pdf) return { ok: false, error: 'no pdf' };
+  var tabs = String(req.tabs || '').trim() || 'no new counts';
+  var name = String(req.filename || 'Consumables Report.pdf').replace(/[^\w .()-]/g, '');
+  var blob = Utilities.newBlob(Utilities.base64Decode(req.pdf), 'application/pdf', name);
+  MailApp.sendEmail({
+    to: REPORT_TO,
+    subject: 'Consumables updated: ' + tabs,
+    body: 'Consumables was updated for ' + tabs + ' only. PDF attached.',
+    name: 'DIC Consumables Helper',
+    attachments: [blob]
+  });
+  return { ok: true };
+}
+
+/** Run once from the editor so Google asks to allow sending email. Sends nothing. */
+function authorizeEmail() { Logger.log('Emails left today: ' + MailApp.getRemainingDailyQuota()); }
+
