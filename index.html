@@ -121,6 +121,7 @@ a.mrow:hover{background:#dcdcdc}
  .cdesc{font-size:15px}
  .otop b{font-size:24px}.otop span{font-size:24px}
  .sect{font-size:15px;margin:12px 0 2px}
+.gnote{margin-top:10px;font:400 14px/1.4 'Instrument Sans',sans-serif;color:#555}
  .brow{font-size:18px;padding:9px 6px}
  .brow b{width:30px;height:30px;font-size:14px}
 }
@@ -345,8 +346,9 @@ var BOOKINGS = [
     spots: null },
   { kind: "Studio", name: "509A DIC Studio", desc: "High-end PC station for 3D, game design, Unreal Engine, ComfyUI AI & more",
     groups: [
-      { title: "PC station reservation · 3-hour slots", items: [
-        ["509A DIC Studio", "https://calendar.app.google/4E5L573Vfow5vUe27"] ] } ],
+      { title: "PC station · 3-hour time slots", items: [
+        ["Book 509A DIC Studio", "https://calendar.app.google/4E5L573Vfow5vUe27"] ],
+        note: "Book one slot or several in a row. Long renders and animations can keep running overnight." } ],
     spots: null }
 ];
 /* spots: leave null until a reliable live count exists. Example: { left: 2, total: 5 } shows "2 of 5 spots left". */
@@ -379,6 +381,7 @@ var BOOKINGS = [
         list.appendChild(a);
       });
       ol.appendChild(list);
+      if (g.note) ol.appendChild(el('div', 'gnote', g.note));
     });
     if (b.spots && typeof b.spots.left === 'number' && typeof b.spots.total === 'number') {
       ol.appendChild(el('div', 'spots', b.spots.left + ' of ' + b.spots.total + ' spots left'));
