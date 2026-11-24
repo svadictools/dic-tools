@@ -1,0 +1,24 @@
+# Rebuilds the DIC Downloads PDFs by itself whenever a guide source in docs/src/ changes.
+name: Build Downloads PDFs
+on:
+  push:
+    branches: [main]
+    paths: ['docs/src/**', 'tools/build-downloads.js']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm i --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node tools/build-downloads.js
+      - name: Commit updated PDFs
+        run: |
+          git config user.name "DIC Downloads bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/*.pdf
+          git diff --cached --quiet || (git commit -m "Rebuild Downloads PDFs from docs/src" && git push)
